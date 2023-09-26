@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 
-#include "Dimensions.h"
 #include "Tensor.h"
+#include "Units.h"
 
 using CppGrad::Dimensions;
 using CppGrad::Index;
@@ -10,7 +10,7 @@ using CppGrad::Tensor;
 TEST(TensorTest, AllDimensions) {
   Tensor a({2, 3, 4, 5});
   ASSERT_EQ(a.dimensions(), Dimensions({2, 3, 4, 5}));
-  ASSERT_EQ(a.dimensions(std::vector<size_t>({1, 1})), Dimensions({4, 5}));
+  ASSERT_EQ(a.dimensions(Index(a.dimensions(), {1, 1})), Dimensions({4, 5}));
 }
 
 TEST(TensorTest, Tensor1d) {

@@ -68,9 +68,7 @@ void log_data(std::span<const float> data,
 } // namespace
 
 TensorElement TensorElement::operator[](size_t index) {
-  std::vector<size_t> new_index = index_;
-  new_index.push_back(index);
-  return tensor_->operator[](new_index);
+  return tensor_->operator[](index_.subelement(dimensions(), index));
 }
 
 TensorElement &TensorElement::operator=(float value) {
@@ -89,7 +87,7 @@ void PrintTo(const TensorElement &tensor, std::ostream *os) {
 }
 
 TensorElement Tensor::operator[](size_t index) {
-  return TensorElement(this, std::array<size_t, 1>{index});
+  return TensorElement(this, Index(index, dimensions().size()));
 }
 
 TensorElement Tensor::operator[](Index index) {

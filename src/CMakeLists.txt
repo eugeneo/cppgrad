@@ -1,4 +1,4 @@
-add_library(CppGrad Dimensions.h Tensor.h Tensor.cc)
+add_library(CppGrad Tensor.h Tensor.cc Units.h Units.cc)
 add_executable(CppGradDemo main.cc)
 target_link_libraries(CppGradDemo CppGrad)
 target_include_directories(

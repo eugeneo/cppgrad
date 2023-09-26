@@ -9,7 +9,7 @@ FetchContent_MakeAvailable(googletest)
 
 enable_testing()
 
-add_executable(tensor_test Tensor.test.cc Dimensions.test.cc)
+add_executable(tensor_test Tensor.test.cc Units.test.cc)
 
 target_include_directories(
   tensor_test

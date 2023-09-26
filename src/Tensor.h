@@ -10,7 +10,7 @@
 #include <span>
 #include <vector>
 
-#include "Dimensions.h"
+#include "Units.h"
 
 namespace CppGrad {
 
@@ -26,7 +26,7 @@ public:
   Dimensions dimensions(const Index &index) const {
     assert(dimensions_.IndexInBounds(index));
     Dimensions result = dimensions_;
-    for (size_t i = 0; i < index.size(); ++i) {
+    for (size_t i = 0; i < index.order(); ++i) {
       result = result.nested();
     }
     if (result.element_count() == 0) {
@@ -57,8 +57,7 @@ public:
   static Tensor Generate(const Dimensions &dimensions, const T &generator) {
     Tensor tensor(dimensions);
     for (size_t i = 0; i < dimensions.element_count(); ++i) {
-      tensor.data_[i] =
-          generator(dimensions.index_from_flat(i), dimensions);
+      tensor.data_[i] = generator(dimensions.index_from_flat(i), dimensions);
     }
     return tensor;
   }
@@ -72,8 +71,8 @@ private:
 
 class TensorElement {
 public:
-  TensorElement(Tensor *tensor, std::span<const size_t> index)
-      : tensor_(tensor), index_(index.begin(), index.end()) {}
+  TensorElement(Tensor *tensor, const Index &index)
+      : tensor_(tensor), index_(index) {}
   TensorElement(const TensorElement &other) = default;
   TensorElement(TensorElement &&other) = default;
   TensorElement operator[](size_t index);
@@ -85,7 +84,7 @@ public:
 
 private:
   Tensor *tensor_;
-  std::vector<size_t> index_;
+  Index index_;
 };
 
 bool operator==(const TensorElement &a, const Tensor &b);
